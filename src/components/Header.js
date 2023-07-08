@@ -9,7 +9,7 @@ import {
   Drawer,
   Divider,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "../styles/Header.css";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 const Header = () => {
@@ -40,19 +40,22 @@ const Header = () => {
 
       <ul className="mobile-navigation-menu">
         <li>
-          <Link to="/"> Home</Link>
+          <NavLink to="/" activeClassName="active">
+            {" "}
+            Home
+          </NavLink>
         </li>
         <li>
-          <Link to="/about"> About Us</Link>
+          <NavLink to="/about"> About Us</NavLink>
         </li>
         <li>
-          <Link to="/products">Products </Link>
+          <NavLink to="/products">Products </NavLink>
         </li>
         <li>
-          <Link to="/services"> Services</Link>
+          <NavLink to="/services"> Services</NavLink>
         </li>
         <li>
-          <Link to="/contact"> Contact Us</Link>
+          <NavLink to="/contact"> Contact Us</NavLink>
         </li>
       </ul>
       <Button
@@ -61,15 +64,15 @@ const Header = () => {
       >
         Admin Login
       </Button>
-      <Box sx={{ padding: 1 }}>
+      <Box>
         <Toolbar />
       </Box>
     </Box>
   );
   return (
     <>
-      <Box>
-        <AppBar sx={{ background: "#063970" }}>
+      <Box sx={{ marginBottom: "65px" }}>
+        <AppBar sx={{ background: "#FFFFFF" }}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -78,10 +81,10 @@ const Header = () => {
               sx={{ mr: 2, display: { sm: "none" } }}
               onClick={handleDrawerToggle}
             >
-              <WidgetsIcon />
+              <WidgetsIcon sx={{ color: "black" }} />
             </IconButton>
             <Typography
-              color={"white"}
+              color={"black"}
               variant="h6"
               component="div"
               sx={{ flexGrow: 1 }}

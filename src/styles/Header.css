@@ -10,9 +10,14 @@
 }
 .navigation-menu li a{
     text-decoration: none;
-    color:white;
+    color:rgb(0, 0, 0);
 } 
 
+.active{
+    color:white !important;
+    font-weight: bold !important; 
+
+}
 
 /* mobile navigation menu */
 
@@ -28,3 +33,4 @@
     font-size: 1.4rem;
     color:black;
 }
+
