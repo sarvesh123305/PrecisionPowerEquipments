@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "./Layout";
 import {
   Box,
   Card,
@@ -11,7 +10,7 @@ import {
 import { Products } from "./FetchPhotos";
 const ProductsGrid = () => {
   return (
-    <Layout>
+    <>
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {Products.map((menu) => (
           <Card
@@ -41,7 +40,7 @@ const ProductsGrid = () => {
           </Card>
         ))}
       </Box>
-    </Layout>
+    </>
   );
 };
 

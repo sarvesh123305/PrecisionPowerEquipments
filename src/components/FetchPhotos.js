@@ -10,7 +10,7 @@ export const Products = [
     price: 6000,
   },
   {
-    name: "Microtek",
+    name: "Luminious",
     Description:
       "nioasdnlandlkasn as nklasd klasm dklasnd lkankld asl dka dkj ajkd jask d",
     image: b,
@@ -18,7 +18,7 @@ export const Products = [
   },
 
   {
-    name: "Microtek",
+    name: "Amaron",
     Description:
       "nioasdnlandlkasn as nklasd klasm dklasnd lkankld asl dka dkj ajkd jask d",
     image: b,

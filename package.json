@@ -1,6 +1,6 @@
 {
   "name": "precisionpowerequipments",
-  "version": "0.1.0",
+  "version": "1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -10,13 +10,21 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "cors": "^2.8.5",
     "dom": "^0.0.3",
+    "express": "^4.18.2",
+    "firebase": "^10.0.0",
+    "node-libs-browser": "^2.2.1",
+    "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-router": "^6.14.1",
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
+    "stream-browserify": "^3.0.0",
+    "url": "^0.11.1",
+    "uuid": "^9.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -42,5 +50,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/sarvesh123305/PrecisionPowerEquipments.git",
+  "author": "sarvesh123305 <sarvesh123305@gmail.com>",
+  "license": "MIT"
 }

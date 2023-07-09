@@ -9,13 +9,17 @@ import {
   Drawer,
   Divider,
 } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../styles/Header.css";
 import WidgetsIcon from "@mui/icons-material/Widgets";
-const Header = () => {
+import { userMenu } from "./userHeader";
+import { adminMenu } from "./adminHeader";
+
+const Header = (props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   //handle menu click
+  const Menu = props.role === "user" ? userMenu : adminMenu;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -40,7 +44,7 @@ const Header = () => {
 
       <ul className="mobile-navigation-menu">
         <li>
-          <NavLink to="/" activeClassName="active">
+          <NavLink to="/" activclassName="active">
             {" "}
             Home
           </NavLink>
@@ -87,27 +91,24 @@ const Header = () => {
               color={"black"}
               variant="h6"
               component="div"
-              sx={{ flexGrow: 1 }}
+              sx={{ flexGrow: 1, color: "blue" }}
             >
               Precision Power Equipments
             </Typography>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
               <ul className="navigation-menu">
-                <li>
-                  <Link to="/"> Home</Link>
-                </li>
-                <li>
-                  <Link to="/about"> About Us</Link>
-                </li>
-                <li>
-                  <Link to="/products">Products </Link>
-                </li>
-                <li>
-                  <Link to="/services"> Services</Link>
-                </li>
-                <li>
-                  <Link to="/contact"> Contact Us</Link>
-                </li>
+                {Menu.map((menu) => (
+                  <li>
+                    <NavLink
+                      to={menu.link}
+                      activeclassname="active"
+                      className="test"
+                    >
+                      {menu.name}
+                    </NavLink>
+                  </li>
+                ))}
+                ;
               </ul>
             </Box>
             <Button sx={{ marginLeft: "auto" }} variant="contained">
