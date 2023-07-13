@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import Layout from "../components/Layout";
 import Banner1 from "../images/test.jpeg";
 import "../styles/Home.css";
+import UserContext from "../context/loginContext";
 
-const Home = () => {
+const Home = () => {  
+  const { updateAdminStatus } = useContext(UserContext);
+  updateAdminStatus(false);
   return (
     <Layout>
       <div
@@ -13,7 +16,7 @@ const Home = () => {
           objectFit: 1,
         }}
       >
-        {" "}
+        {/*checkValidation*/}
       </div>
     </Layout>
   );

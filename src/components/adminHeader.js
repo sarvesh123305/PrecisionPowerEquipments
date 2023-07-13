@@ -1,11 +1,11 @@
-export const adminMenu = [
+const adminMenu = [
   {
     name: "Home",
     link: "/Admin/",
   },
   {
     name: "Add Products",
-    link: "/Admin/products",
+    link: "/Admin/addproducts",
   },
   {
     name: "Services",
@@ -16,3 +16,9 @@ export const adminMenu = [
     link: "/Admin/contact",
   },
 ];
+const adminMenuButtons = [{
+  name: "User Login",
+  link: "/",
+}];
+
+export { adminMenu, adminMenuButtons };

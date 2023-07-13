@@ -1,4 +1,4 @@
-export const userMenu = [
+ const userMenu = [
   {
     name: "Home",
     link: "/",
@@ -21,3 +21,12 @@ export const userMenu = [
     link: "/contact",
   },
 ];
+
+const userMenuButtons = [
+  {
+    name:  "Admin Login",
+    link: "/authAdmin",
+  }
+]
+
+export {userMenu,userMenuButtons};

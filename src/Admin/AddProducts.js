@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { imageDb, db } from "../Database/Firebase";
-import {
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import Layout from "../components/Layout";
 
 const initialState = {
   name: "",
@@ -59,7 +56,6 @@ function AddProducts() {
     file && uploadFile();
   }, [file]);
 
-  
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -92,7 +88,7 @@ function AddProducts() {
     // naviga
   };
   return (
-    <>
+    <Layout>
       <div>
         <form onSubmit={handleSubmit}>
           <label>Enter name </label>
@@ -150,7 +146,7 @@ function AddProducts() {
           </button>
         </form>
       </div>
-    </>
+    </Layout>
   );
 }
 

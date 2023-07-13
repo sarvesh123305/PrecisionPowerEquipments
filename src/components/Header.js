@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -9,17 +9,19 @@ import {
   Drawer,
   Divider,
 } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "../styles/Header.css";
 import WidgetsIcon from "@mui/icons-material/Widgets";
-import { userMenu } from "./userHeader";
-import { adminMenu } from "./adminHeader";
-
+import { userMenu, userMenuButtons } from "./userHeader";
+import { adminMenu, adminMenuButtons } from "./adminHeader";
+import UserContext from "../context/loginContext";
 const Header = (props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   //handle menu click
-  const Menu = props.role === "user" ? userMenu : adminMenu;
+  const { isAdmin } = useContext(UserContext);
+  const Menu = isAdmin !== true ? userMenu : adminMenu;
+  const MenuButton = isAdmin !== true ? userMenuButtons : adminMenuButtons;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -97,8 +99,8 @@ const Header = (props) => {
             </Typography>
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
               <ul className="navigation-menu">
-                {Menu.map((menu) => (
-                  <li>
+                {Menu.map((menu, i) => (
+                  <li key={i}>
                     <NavLink
                       to={menu.link}
                       activeclassname="active"
@@ -111,9 +113,17 @@ const Header = (props) => {
                 ;
               </ul>
             </Box>
-            <Button sx={{ marginLeft: "auto" }} variant="contained">
-              Admin Login
-            </Button>
+            {MenuButton.map((menu, i) => (
+              <Button
+                key={i}
+                component={Link}
+                sx={{ marginLeft: "auto" }}
+                variant="contained"
+                to={menu.link}
+              >
+                {menu.name}
+              </Button>
+            ))}
           </Toolbar>
         </AppBar>
         <Box component="nav">
