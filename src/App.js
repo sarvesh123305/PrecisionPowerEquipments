@@ -12,6 +12,7 @@ import AuthAdmin from "./Auth/AuthAdmin";
 import UserProvider from "./context/loginState";
 import AdminAuthProvider from "./context/adminAuthState";
 import { Provider } from "react-redux";
+import Customers from "./Admin/pages/Customers";
 import store from "./redux/store";
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
                 <Route path="/authAdmin" element={<AuthAdmin />} />
                 <Route path="/Admin/" element={<AdminHome />} />
                 <Route path="/Admin/addProducts" element={<AddProducts />} />
+                <Route path="/Admin/Customers" element={<Customers />} />
+
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </BrowserRouter>

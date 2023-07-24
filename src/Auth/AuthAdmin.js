@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import adminAuthContext from "../context/adminAuthContext";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/states/adminSlice";
 const AuthAdmin = () => {
   const { updateAdminStatus } = useContext(UserContext);
   const { updateAdminAuth } = useContext(adminAuthContext);
@@ -36,11 +38,17 @@ const AuthAdmin = () => {
     margin: "8px 0px",
   };
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (username === "Admin" && password === "Admin") {
       updateAdminAuth(true);
+      dispatch(
+        login({
+          adminUsername: username,
+          loggedIn: true,
+        })
+      );
       navigate("/Admin/");
     } else {
       console.log("Invalid username or password");

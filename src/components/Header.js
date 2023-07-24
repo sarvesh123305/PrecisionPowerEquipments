@@ -12,6 +12,7 @@ import {
 import { Link, NavLink } from "react-router-dom";
 import "../styles/Header.css";
 import WidgetsIcon from "@mui/icons-material/Widgets";
+//eslint-disable-next-line
 import { userMenu, userMenuButtons } from "./userHeader";
 import { adminMenu, adminMenuButtons } from "./adminHeader";
 import UserContext from "../context/loginContext";
@@ -20,7 +21,10 @@ const Header = (props) => {
 
   //handle menu click
   const { isAdmin } = useContext(UserContext);
-  const Menu = isAdmin !== true ? userMenu : adminMenu;
+
+  // const Menu = isAdmin !== true ? userMenu : adminMenu;
+  const Menu = adminMenu;
+
   const MenuButton = isAdmin !== true ? userMenuButtons : adminMenuButtons;
 
   const handleDrawerToggle = () => {

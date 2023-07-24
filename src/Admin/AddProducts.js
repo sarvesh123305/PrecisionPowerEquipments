@@ -3,6 +3,8 @@ import { imageDb, db } from "../Database/Firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import Layout from "../components/Layout";
+import { Box } from "@mui/material";
+import ProductsGrid from "../Admin/pages/ProductsGrid";
 
 const initialState = {
   name: "",
@@ -146,6 +148,9 @@ function AddProducts() {
           </button>
         </form>
       </div>
+      <Box>
+        <ProductsGrid />
+      </Box>
     </Layout>
   );
 }

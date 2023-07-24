@@ -8,6 +8,10 @@ const adminMenu = [
     link: "/Admin/addproducts",
   },
   {
+    name: "Customers",
+    link: "/Admin/Customers",
+  },
+  {
     name: "Services",
     link: "/Admin/services",
   },
@@ -16,9 +20,11 @@ const adminMenu = [
     link: "/Admin/contact",
   },
 ];
-const adminMenuButtons = [{
-  name: "User Login",
-  link: "/",
-}];
+const adminMenuButtons = [
+  {
+    name: "User Login",
+    link: "/",
+  },
+];
 
 export { adminMenu, adminMenuButtons };

@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Box,
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -21,10 +22,10 @@ const ProductsGrid = () => {
               "@media(max-width:600px)": { m: 2 },
             }}
           >
-            <CardActionArea>
+            <CardActionArea disableRipple>
               <CardMedia
                 sx={{
-                  minHeight: "400px",
+                  minHeight: "150px",
                   "@media(max-width:600px)": { minHeight: "250px" },
                 }}
                 component={"img"}
@@ -35,6 +36,26 @@ const ProductsGrid = () => {
                   {menu.name}
                 </Typography>
                 <Typography variant="body2">{menu.Description}</Typography>
+                <Button
+                  sx={{ marginTop: "10px" }}
+                  variant="contained"
+                  fullWidth
+                >
+                  Add to Cart
+                </Button>
+                <Button
+                  sx={{
+                    marginTop: "10px",
+                    backgroundColor: "#4caf50", // Replace this with your desired shade of green
+                    "&:hover": {
+                      backgroundColor: "#45a049", // Replace this with the hover color, if needed
+                    },
+                  }}
+                  variant="contained"
+                  fullWidth
+                >
+                  Buy Now
+                </Button>
               </CardContent>
             </CardActionArea>
           </Card>
