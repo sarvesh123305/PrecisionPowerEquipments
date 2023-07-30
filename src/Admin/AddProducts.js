@@ -3,7 +3,7 @@ import { storage, db } from "../Database/Firebase1";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import Layout from "../components/Layout";
-import { Box, Grid, TextField } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import ProductsGrid from "../Admin/pages/ProductsGrid";
 import { toast } from "react-toastify";
 import { Label } from "@mui/icons-material";
@@ -161,7 +161,7 @@ function AddProducts() {
         </form>
       </div>
       <Box>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ justifyContent: 'center' }}>
           {/* First Row */}
           <Grid item xs={6}>
             <TextField
@@ -225,7 +225,12 @@ function AddProducts() {
             />
           </Grid>
           <Grid item xs={6}>
-            <Label>File selected</Label>
+            <Typography sx={{ margin: "10px" }} variant="h6">
+              File selected
+            </Typography>
+          </Grid>
+            <Grid item xs={12}>
+            <Button>Add Product</Button>
           </Grid>
         </Grid>
 
