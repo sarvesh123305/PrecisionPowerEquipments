@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { imageDb, db } from "../Database/Firebase";
+import { storage, db } from "../Database/Firebase1";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import Layout from "../components/Layout";
-import { Box } from "@mui/material";
+import { Box, Grid, TextField } from "@mui/material";
 import ProductsGrid from "../Admin/pages/ProductsGrid";
+import { toast } from "react-toastify";
+import { Label } from "@mui/icons-material";
 
 const initialState = {
-  name: "",
-  email: "",
+  modelName: "",
+  brand: "",
+  manufacturer: "",
   info: "",
-  contact: "",
+  category: "",
+  price: "",
+  file: "",
 };
 function AddProducts() {
+  console.log(initialState);
   const [data, setData] = useState(initialState);
-  const { name, email, info, contact } = data;
+  const { modelName, brand, manufacturer, info, category, price } = data;
   const [file, setFile] = useState(null);
   const [progress, setprogress] = useState(null);
   const [isSubmit, setisSubmit] = useState(null);
@@ -25,7 +31,7 @@ function AddProducts() {
   useEffect(() => {
     const uploadFile = () => {
       // const name = new Date().getTime + file.name;
-      const storageref = ref(imageDb, file.name);
+      const storageref = ref(storage, "Images/" + file.name);
       const uploadTask = uploadBytesResumable(storageref, file);
       uploadTask.on(
         "state changed",
@@ -64,29 +70,35 @@ function AddProducts() {
 
   const validate = () => {
     let errors = {};
-    if (!name) {
-      errors.name = "Name is required";
-    }
-    if (!email) {
-      errors.email = "Email is required";
-    }
-    if (!info) {
-      errors.info = "Info is required";
-    }
-    if (!contact) {
-      errors.contact = "Contact is required";
-    }
+    // if (!name) {
+    //   errors.name = "Name is required";
+    // }
+    // if (!email) {
+    //   errors.email = "Email is required";
+    // }
+    // if (!info) {
+    //   errors.info = "Info is required";
+    // }
+    // if (!contact) {
+    //   errors.contact = "Contact is required";
+    // }
     return errors;
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     let errors = validate();
     if (Object.keys(errors).length) return seterror(errors);
+
     setisSubmit(true);
-    await addDoc(collection(db, "users"), {
-      ...data,
-      timestamp: serverTimestamp(),
-    });
+    try {
+      await addDoc(collection(db, "users"), {
+        ...data,
+        timestamp: serverTimestamp(),
+      });
+      toast.success("Product Added Successfully");
+    } catch (err) {
+      toast.error("Product not added");
+    }
     // naviga
   };
   return (
@@ -98,7 +110,7 @@ function AddProducts() {
             type="text"
             name="name"
             // errors={errors.name ? { content:errors.name} : null}
-            value={name}
+            // value={name}
             onChange={handleChange}
           />
           <br></br>
@@ -108,7 +120,7 @@ function AddProducts() {
           <input
             type="email"
             name="email"
-            value={email}
+            // value={email}
             // errors={errors.email ? { content:errors.email} : null}
             onChange={handleChange}
           />
@@ -129,7 +141,7 @@ function AddProducts() {
             type="text"
             name="contact"
             // errors={errors.contact ? { content:errors.contact} : null}
-            value={contact}
+            // value={contact}
             onChange={handleChange}
           />
           <br></br>
@@ -149,6 +161,74 @@ function AddProducts() {
         </form>
       </div>
       <Box>
+        <Grid container spacing={2}>
+          {/* First Row */}
+          <Grid item xs={6}>
+            <TextField
+              label="Model Name"
+              placeholder="Enter Model Name"
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+              // onChange={(e) => setProductName(e.target.value)}
+              // value={productName}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              label="Brand"
+              placeholder="Enter Brand Name"
+              InputLabelProps={{ shrink: true }}
+              // value={price}
+              // onChange={(e) => setPrice(e.target.value)}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              label="Manufacturer"
+              placeholder="Enter Manufacturer Name"
+              InputLabelProps={{ shrink: true }}
+              // value={price}
+              // onChange={(e) => setPrice(e.target.value)}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              label="Category"
+              placeholder="Enter Category"
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+              // onChange={(e) => setProductName(e.target.value)}
+              // value={productName}
+            />
+          </Grid>
+          {/* Second Row */}
+          <Grid item xs={12}>
+            <TextField
+              label="Description"
+              InputLabelProps={{ shrink: true }}
+              placeholder="Enter Description"
+              // value={description}
+              // onChange={(e) => setDescription(e.target.value)}
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              label="File"
+              type="file"
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Label>File selected</Label>
+          </Grid>
+        </Grid>
+
         <ProductsGrid />
       </Box>
     </Layout>

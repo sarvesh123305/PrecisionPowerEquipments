@@ -3,6 +3,7 @@ import b from "../products/2.png";
 
 export const Products = [
   {
+    id:1,
     name: "Microtek",
     Description:
       "nioasdnlandlkasn as nklasd klasm dklasnd lkankld asl dka dkj ajkd jask d",
@@ -11,6 +12,8 @@ export const Products = [
     price: 6000,
   },
   {
+    id:2,
+
     name: "Luminious",
     Description:
       "nioasdnlandlkasn as nklasd klasm dklasnd lkankld asl dka dkj ajkd jask d",
@@ -22,6 +25,8 @@ export const Products = [
   },
 
   {
+    id:3,
+
     name: "Amaron",
     Description:
       "nioasdnlandlkasn as nklasd klasm dklasnd lkankld asl dka dkj ajkd jask d",
@@ -30,6 +35,8 @@ export const Products = [
     price: 4000,
   },
   {
+    id:4,
+
     name: "Microtek",
     Description:
       "nioasdnlandlkasn as nklasd klasm dklasnd lkankld asl dka dkj ajkd jask d",
@@ -39,6 +46,7 @@ export const Products = [
     price: 6000,
   },
   {
+    id:5,
     name: "Luminious",
     Description:
       "nioasdnlandlkasn as nklasd klasm dklasnd lkankld asl dka dkj ajkd jask d",
@@ -49,6 +57,8 @@ export const Products = [
   },
 
   {
+    id:6,
+
     name: "Amaron",
     Description:
       "nioasdnlandlkasn as nklasd klasm dklasnd lkankld asl dka dkj ajkd jask d",

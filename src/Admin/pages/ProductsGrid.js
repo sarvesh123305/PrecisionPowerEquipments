@@ -10,7 +10,6 @@ import {
 import React, { useState } from "react";
 import { Products } from "../../components/FetchPhotos";
 import EditProduct from "./EditProduct";
-import moment from "moment";
 
 const ProductsGrid = () => {
   const [openDialog, setOpenDialog] = useState(false);

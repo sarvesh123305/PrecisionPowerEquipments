@@ -14,7 +14,7 @@ const ProductsGrid = () => {
     <>
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {Products.map((menu) => (
-          <Card
+          <Card  key={menu.id}
             sx={{
               maxWidth: "390px",
               display: "flex",

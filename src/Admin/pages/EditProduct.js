@@ -23,11 +23,13 @@ const EditProduct = (props) => {
     price,
     description,
     date,
-    file,
     setPrice,
     setDescription,
     setDate,
-    setFile,
+    //eslint-disable-next-line
+    file,
+    //eslint-disable-next-line
+      setFile,
   } = props;
 
   const formatDateForDisplay = (dateString) => {

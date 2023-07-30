@@ -15,6 +15,9 @@ import { Link, useNavigate } from "react-router-dom";
 import adminAuthContext from "../context/adminAuthContext";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/states/adminSlice";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../Database/Firebase1";
+import { toast } from "react-toastify";
 const AuthAdmin = () => {
   const { updateAdminStatus } = useContext(UserContext);
   const { updateAdminAuth } = useContext(adminAuthContext);
@@ -41,19 +44,24 @@ const AuthAdmin = () => {
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (username === "Admin" && password === "Admin") {
-      updateAdminAuth(true);
-      dispatch(
-        login({
-          adminUsername: username,
-          loggedIn: true,
-        })
-      );
-      navigate("/Admin/");
-    } else {
-      console.log("Invalid username or password");
-      updateAdminAuth(false);
-    }
+    console.log("Username ", username, password);
+    signInWithEmailAndPassword(auth, username, password)
+      .then((userCredential) => {
+        updateAdminAuth(true);
+        const user = userCredential.user;
+        dispatch(
+          login({
+            userId: user,
+            adminUsername: username,
+            loggedIn: true,
+          })
+        );
+        navigate("/Admin/");
+      })
+      .catch((error) => {
+        updateAdminAuth(false);
+        toast.error("Error authenticating user");
+      });
   };
   return (
     <Layout>
@@ -71,6 +79,7 @@ const AuthAdmin = () => {
               label="Username"
               variant="standard"
               fullWidth
+              type="email"
               placeholder="Enter username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
