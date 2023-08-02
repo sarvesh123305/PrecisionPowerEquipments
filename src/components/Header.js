@@ -14,6 +14,7 @@ import "../styles/Header.css";
 import WidgetsIcon from "@mui/icons-material/Widgets";
 //eslint-disable-next-line
 import { userMenu, userMenuButtons } from "./userHeader";
+//eslint-disable-next-line
 import { adminMenu, adminMenuButtons } from "./adminHeader";
 import UserContext from "../context/loginContext";
 const Header = (props) => {
@@ -23,7 +24,7 @@ const Header = (props) => {
   const { isAdmin } = useContext(UserContext);
 
   // const Menu = isAdmin !== true ? userMenu : adminMenu;
-  const Menu = adminMenu;
+  const Menu = userMenu;
 
   const MenuButton = isAdmin !== true ? userMenuButtons : adminMenuButtons;
 

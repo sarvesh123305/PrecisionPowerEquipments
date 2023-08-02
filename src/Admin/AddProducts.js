@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import ProductsGrid from "../Admin/pages/ProductsGrid";
 import { toast } from "react-toastify";
-import { Description, Label } from "@mui/icons-material";
 
 const initialState = {
   modelName: "",
@@ -27,17 +26,16 @@ const initialState = {
   info: "",
   category: "",
   price: "",
-  file: "",
+  capacity:"",
+  subsidy:""
 };
 function AddProducts() {
-  console.log(initialState);
   const [data, setData] = useState(initialState);
-  const { modelName, brand, manufacturer, info, category, price } = data;
+  const { modelName, brand, manufacturer, info, category, price ,capacity,subsidy} = data;
   const [file, setFile] = useState(null);
   const [progress, setprogress] = useState(null);
   const [isSubmit, setisSubmit] = useState(null);
   const [errors, seterror] = useState(null);
-  const [isSolar, setIsSolar] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
   if (isSubmit && errors) {
@@ -46,8 +44,7 @@ function AddProducts() {
   useEffect(() => {
     const uploadFile = () => {
       const name = new Date().getTime() + file.name;
-
-      console.log(name);
+      if(name){}
       const storageRef = ref(storage, "Products/" + category + "/" + file.name);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -114,6 +111,7 @@ function AddProducts() {
         ...data,
         timestamp: serverTimestamp(),
       });
+      setData(initialState);
       toast.success("Product Added Successfully");
     } catch (err) {
       toast.error("Product not added");
@@ -121,13 +119,6 @@ function AddProducts() {
     // naviga
   };
   const handleSelect = (e) => {
-
-    console.log("Solar ", e.target.value);
-    if (e.target.value === "Solar") {
-      setIsSolar(true);
-    } else {
-      setIsSolar(false);
-    }
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const handleClear = () => {
@@ -145,7 +136,7 @@ function AddProducts() {
           width: "100%",
         }}
       >
-        <Typography variant="h4" sx={{ marginBottom: "10px" }}>
+        <Typography variant="h4" sx={{ marginBottom: "20px" }}>
           Add Products
         </Typography>
         <Box>
@@ -197,17 +188,44 @@ function AddProducts() {
                   value={category}
                   onChange={handleSelect}
                 >
-                  <MenuItem value={10}>Inverter</MenuItem>
-                  <MenuItem value={20}>Battery</MenuItem>
-                  <MenuItem value={30}>Solar</MenuItem>
+                  <MenuItem value={"Inverter"}>Inverter</MenuItem>
+                  <MenuItem value={"Battery"}>Battery</MenuItem>
+                  <MenuItem value={"Solar"}>Solar</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
-            {isSolar === true && (
-              <Grid item xs={12}>
-                Test
+              <Grid item xs={6}>
+                    <TextField
+                    label="Capacity"
+                    InputLabelProps={{ shrink: true }}
+                    placeholder="Enter capacity"
+                    value={capacity}
+                    name="capacity"
+                    onChange={handleChange}
+                    fullWidth
+                  />
               </Grid>
-            )}
+            
+            
+       
+            
+              <Grid item xs={6}>
+              <FormControl fullWidth>
+              <InputLabel>Subsidy Eligible</InputLabel>
+              <Select
+                name="subsidy"
+                placeholder="Enter subsidy"
+                labelId="subsidy"
+                id="subsidy"
+                label="subsidy"
+                value={subsidy}
+                onChange={handleChange}
+              >
+                <MenuItem value={"Eligible"}>Eligible</MenuItem>
+                <MenuItem value={"Not Eligible"}>Not Eligible</MenuItem>
+              </Select>
+            </FormControl>
+            </Grid>
             {/* Second Row */}
             <Grid item xs={12}>
               <TextField
@@ -221,7 +239,7 @@ function AddProducts() {
               />
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <TextField
                 label="File"
                 type="file"
@@ -232,18 +250,26 @@ function AddProducts() {
                   if (file) {
                     setSelectedFile(file); // Set the selected file to the state variable
                   }
-                  // setFileNameForAvatar(e.target.files[0]?.name || "");
-                  console.log("File name " +e.target.files[0]?.name);
                 }}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={1}>
             <a href={selectedFile && URL.createObjectURL(selectedFile)}  target="_blank" rel="noreferrer noopener" >
-              <Avatar alt="Remy Sharp" sx={{ width: 100, height: 50 }}  src={selectedFile && URL.createObjectURL(selectedFile)} />
+              <Avatar alt="Remy Sharp" sx={{ width: 80, height: 60 }}  src={selectedFile && URL.createObjectURL(selectedFile)} />
             </a>
               </Grid>
+              <Grid item xs={6} ><TextField
+              label="Price"
+              type="number"
+              InputLabelProps={{ shrink: true }}
+              placeholder="Enter Price"
+              value={price}
+              name="price"
+              onChange={handleChange}
+              fullWidth
+            /></Grid>
             <Grid item xs={12}>
               <Button
                 variant="contained"

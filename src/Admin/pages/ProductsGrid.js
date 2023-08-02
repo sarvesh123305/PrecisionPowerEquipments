@@ -34,10 +34,14 @@ const ProductsGrid = () => {
 
   return (
     <>
+    <Typography variant="h4" sx={{ textAlign: "center", marginBottom: "20px" }}>All Products</Typography>
+
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {/*ADMIN PANELLLL*/}
-        {Products.map((menu) => (
+
+        {Products && Products.map((menu) => (
           <Card
+          key={menu.id} 
             sx={{
               maxWidth: "390px",
               display: "flex",
@@ -55,10 +59,12 @@ const ProductsGrid = () => {
                 src={menu.image}
               />
               <CardContent>
-                <Typography variant="h5" gutterButtom={"div"}>
+                <Typography variant="h5" >
                   {menu.name}
                 </Typography>
+                
                 <Typography variant="body2">{menu.Description}</Typography>
+                <Typography variant="body1" sx={{fontWeight:"bold"}}>Rs. {menu.price}</Typography>
                 <Button
                   sx={{ marginTop: "10px" }}
                   variant="contained"
@@ -75,6 +81,7 @@ const ProductsGrid = () => {
                 >
                   Edit
                 </Button>
+                
                 <Button
                   sx={{
                     marginTop: "10px",

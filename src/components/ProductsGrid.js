@@ -9,7 +9,35 @@ import {
   Typography,
 } from "@mui/material";
 import { Products } from "./FetchPhotos";
+// import Razorpay from "razorpay";
+// const apikey = "rzp_test_sSdJxzSwJ67cSd";
+// const apiSecret = "vA3Xg51s79vhv2qh4G5Qb8FQ";
 const ProductsGrid = () => {
+
+  const loadScript = (src) =>{
+    return new Promise((resolve) =>{
+      const script = document.createElement('script');
+      script.src = src;
+
+      script.onload = () =>{
+        resolve(true);
+      }
+
+      script.onerror = () =>{
+        resolve(false);
+      }
+
+      document.body.appendChild(script);
+    })
+  }
+  const displayRazorPay = async (amount) =>{
+    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+    if(!res)
+    {
+      alert("You are offline , failed to load");
+      return ;
+    }
+  }
   return (
     <>
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
@@ -51,6 +79,7 @@ const ProductsGrid = () => {
                       backgroundColor: "#45a049", // Replace this with the hover color, if needed
                     },
                   }}
+                  onClick={() => displayRazorPay(10)}
                   variant="contained"
                   fullWidth
                 >
