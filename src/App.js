@@ -17,7 +17,7 @@ import Add from "./Admin/pages/Customers/Add";
 import Update from "./Admin/pages/Customers/Update";
 import View from "./Admin/pages/Customers/View";
 import store from "./redux/store";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (

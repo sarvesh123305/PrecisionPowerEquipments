@@ -24,7 +24,8 @@ const Header = (props) => {
   const { isAdmin } = useContext(UserContext);
 
   // const Menu = isAdmin !== true ? userMenu : adminMenu;
-  const Menu = userMenu;
+  // const Menu = userMenu;
+  const Menu = adminMenu;
 
   const MenuButton = isAdmin !== true ? userMenuButtons : adminMenuButtons;
 
