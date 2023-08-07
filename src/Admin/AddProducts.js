@@ -26,12 +26,23 @@ const initialState = {
   info: "",
   category: "",
   price: "",
-  capacity:"",
-  subsidy:""
+  capacity: "",
+  subsidy: "",
+  warranty: "",
 };
 function AddProducts() {
   const [data, setData] = useState(initialState);
-  const { modelName, brand, manufacturer, info, category, price ,capacity,subsidy} = data;
+  const {
+    modelName,
+    brand,
+    manufacturer,
+    info,
+    category,
+    price,
+    capacity,
+    subsidy,
+    warranty,
+  } = data;
   const [file, setFile] = useState(null);
   const [progress, setprogress] = useState(null);
   const [isSubmit, setisSubmit] = useState(null);
@@ -44,7 +55,8 @@ function AddProducts() {
   useEffect(() => {
     const uploadFile = () => {
       const name = new Date().getTime() + file.name;
-      if(name){}
+      if (name) {
+      }
       const storageRef = ref(storage, "Products/" + category + "/" + file.name);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -118,15 +130,12 @@ function AddProducts() {
     }
     // naviga
   };
-  const handleSelect = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
+
   const handleClear = () => {
     setData(initialState);
   };
   return (
     <Layout>
-  
       <Paper
         sx={{
           textAlign: "center",
@@ -186,7 +195,7 @@ function AddProducts() {
                   id="category"
                   label="category"
                   value={category}
-                  onChange={handleSelect}
+                  onChange={handleChange}
                 >
                   <MenuItem value={"Inverter"}>Inverter</MenuItem>
                   <MenuItem value={"Battery"}>Battery</MenuItem>
@@ -194,37 +203,34 @@ function AddProducts() {
                 </Select>
               </FormControl>
             </Grid>
-              <Grid item xs={6}>
-                    <TextField
-                    label="Capacity"
-                    InputLabelProps={{ shrink: true }}
-                    placeholder="Enter capacity"
-                    value={capacity}
-                    name="capacity"
-                    onChange={handleChange}
-                    fullWidth
-                  />
-              </Grid>
-            
-            
-       
-            
-              <Grid item xs={6}>
-              <FormControl fullWidth>
-              <InputLabel>Subsidy Eligible</InputLabel>
-              <Select
-                name="subsidy"
-                placeholder="Enter subsidy"
-                labelId="subsidy"
-                id="subsidy"
-                label="subsidy"
-                value={subsidy}
+            <Grid item xs={6}>
+              <TextField
+                label="Capacity"
+                InputLabelProps={{ shrink: true }}
+                placeholder="Enter capacity"
+                value={capacity}
+                name="capacity"
                 onChange={handleChange}
-              >
-                <MenuItem value={"Eligible"}>Eligible</MenuItem>
-                <MenuItem value={"Not Eligible"}>Not Eligible</MenuItem>
-              </Select>
-            </FormControl>
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <FormControl fullWidth>
+                <InputLabel>Subsidy Eligible</InputLabel>
+                <Select
+                  name="subsidy"
+                  placeholder="Enter subsidy"
+                  labelId="subsidy"
+                  id="subsidy"
+                  label="subsidy"
+                  value={subsidy}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"Eligible"}>Eligible</MenuItem>
+                  <MenuItem value={"Not Eligible"}>Not Eligible</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             {/* Second Row */}
             <Grid item xs={12}>
@@ -256,20 +262,52 @@ function AddProducts() {
               />
             </Grid>
             <Grid item xs={1}>
-            <a href={selectedFile && URL.createObjectURL(selectedFile)}  target="_blank" rel="noreferrer noopener" >
-              <Avatar alt="Remy Sharp" sx={{ width: 80, height: 60 }}  src={selectedFile && URL.createObjectURL(selectedFile)} />
-            </a>
-              </Grid>
-              <Grid item xs={6} ><TextField
-              label="Price"
-              type="number"
-              InputLabelProps={{ shrink: true }}
-              placeholder="Enter Price"
-              value={price}
-              name="price"
-              onChange={handleChange}
-              fullWidth
-            /></Grid>
+              <a
+                href={selectedFile && URL.createObjectURL(selectedFile)}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <Avatar
+                  alt="Remy Sharp"
+                  sx={{ width: 80, height: 60 }}
+                  src={selectedFile && URL.createObjectURL(selectedFile)}
+                />
+              </a>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Price"
+                type="number"
+                InputLabelProps={{ shrink: true }}
+                placeholder="Enter Price"
+                value={price}
+                name="price"
+                onChange={handleChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl fullWidth>
+                <InputLabel>Select warranty</InputLabel>
+                <Select
+                  displayEmpty
+                  name="warranty"
+                  placeholder="Enter warranty"
+                  labelId="warranty"
+                  id="warranty"
+                  label="warranty"
+                  value={warranty}
+                  onChange={handleChange}
+                >
+                  {[...Array(12)].map((_, index) => (
+                    <MenuItem key={index} value={index + 1}>{`${
+                      (index + 1) * 6
+                    } months`}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid xs={6}></Grid>
             <Grid item xs={12}>
               <Button
                 variant="contained"

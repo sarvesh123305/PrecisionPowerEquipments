@@ -73,21 +73,24 @@ const imageName = getImageNameFromUrl(imgSrc);
       setData(data.filter((item) => item.id !== id));
       toast.success("Product Deleted Successfully");
     } catch (err) {
-      toast.error("Error Product Customer", err);
+      toast.error("Error deleting Product ", err);
     }
   };
   return (
     <>
-      <Typography
+   
+    <Typography
         variant="h4"
         sx={{ textAlign: "center", marginBottom: "20px" }}
       >
-        All Products
-      </Typography>
+      {
+        data.length !== 0 ? "All Products" : "No Products available"
+      }
+      </Typography> 
+  
 
       <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {/*ADMIN PANELLLL*/}
-
         {data &&
           data.map((menu) => (
             <Card

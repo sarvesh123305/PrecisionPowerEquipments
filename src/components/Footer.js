@@ -4,7 +4,9 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import EmailIcon from "@mui/icons-material/Email";
 import CallIcon from "@mui/icons-material/Call";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+// import Chatbot from "./chatbot/Chatbot";
 const Footer = () => {
+  // <Chatbot />
   return (
     <>
       <Box

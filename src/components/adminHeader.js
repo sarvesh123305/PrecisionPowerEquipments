@@ -12,6 +12,10 @@ const adminMenu = [
     link: "/Admin/Customers",
   },
   {
+    name: "Add purchases",
+    link: "/Admin/customerPurchase",
+  },
+  {
     name: "Services",
     link: "/Admin/services",
   },

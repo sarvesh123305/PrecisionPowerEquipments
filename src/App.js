@@ -19,6 +19,8 @@ import View from "./Admin/pages/Customers/View";
 import store from "./redux/store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Purchase from "./Admin/pages/customerPurchases/Purchase";
+import Invoice from "./Admin/pages/invoiceGenerator/Invoice";
 function App() {
   return (
     <>
@@ -45,6 +47,10 @@ function App() {
                 />
                 <Route path="/Admin/Customers/View/:id" element={<View />} />
 
+                <Route path="/Admin/customerPurchase" element={<Purchase />} />
+                <Route path="/Admin/invoice" element={<Invoice />} />
+
+                
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </BrowserRouter>
