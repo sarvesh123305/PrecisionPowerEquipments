@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.invoice {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.invoice-logo {
+    max-width: 150px;
+}
+
+.invoice-details {
+    text-align: right;
+}
+
+.invoice-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.invoice-info {
+    margin-top: 20px;
+    line-height: 1;
+
+}
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.invoice-table th,
+.invoice-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.invoice-total {
+    text-align: right;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.header {
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: large;
+}
+
+.from-header {
+    font-weight: bold;
+    font-size: large;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+th,
+td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+    /* Center the text in all <td> elements */
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.dealer-signature,
+.customer-signature {
+    position: absolute;
+    bottom: 20px;
+    width: 150px;
+    text-align: center;
+}
+
+.dealer-signature {
+    left: 50px;
+}
+
+.customer-signature {
+    right: 50px;
+}

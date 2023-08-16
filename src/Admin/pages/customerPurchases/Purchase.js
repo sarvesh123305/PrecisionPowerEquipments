@@ -12,7 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import TableShow from "./TableShow";
 import Autocomplete from "@mui/material/Autocomplete";
 import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
 import { db } from "../../../Database/Firebase1";
@@ -26,6 +26,7 @@ const Purchase = () => {
   const productNameRef = useRef(null);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [total, setTotal] = useState(0);
+  const [newData, setNewData] = useState([]);
   const [formData, setFormData] = useState({
     category: "",
     price: 0,
@@ -34,8 +35,9 @@ const Purchase = () => {
     amc: "",
     amcAmount: "",
     quantity: 0,
+    tax: 0,
   });
-  const { category, price, serialNo, quality, amc, amcAmount, quantity } =
+  const { category, price, serialNo, quality, amc, tax, amcAmount, quantity } =
     formData;
   useEffect(() => {
     const fetchData = onSnapshot(
@@ -86,12 +88,9 @@ const Purchase = () => {
   const AddNewProduct = async () => {
     const productName = productNameRef.current.value;
     console.log(selectedCustomer.email);
-    console.log("Product Name:", productName);
 
-    // console.log(selectedCustomer.Purchase);
-    let newData = [];
-    if (selectedCustomer.Purchase) {
-      newData = selectedCustomer.Purchase;
+    if (selectedCustomer.Purchase && newData.length === 0) {
+      setNewData(selectedCustomer.Purchase);
     }
     console.log("New Data ", newData);
     const object = {
@@ -102,25 +101,28 @@ const Purchase = () => {
       serialNo: serialNo,
       quality: quality,
       amc: amc,
+      tax: tax,
       amcAmount: amcAmount,
       quantity: quantity,
       total: total,
     };
     newData.push(object);
     console.log(newData);
+   
+  };
+  const AddProductToCustomerCart = async () =>{
     try {
-      // const res = await setDoc(doc(db, "customers", "y92831@gmail.com"), {
-      //   name: "Hello",
-      //   rollno: "askda",
-      //   Purchase: ["2", "Sarbesh", "1500"],
-      // });
-
-      toast.success("Product ds successfully!!!");
+      selectedCustomer.products = newData;
+      await setDoc(doc(db, "customers", selectedCustomer.email), {
+        ...selectedCustomer,
+      });
+  
+      toast.success("Products successfully!!!");
     } catch (err) {
       toast.error("Error adding product" + err);
       console.log(err);
     }
-  };
+    }
   useEffect(() => {
     const handleTotal = () => {
       const newTotal = quantity * price;
@@ -220,11 +222,24 @@ const Purchase = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Serial Number"
+                label="Quantity"
+                type="number"
                 InputLabelProps={{ shrink: true }}
-                placeholder="Enter serial Number"
-                value={serialNo}
-                name="serialNo"
+                placeholder="Enter Quantity"
+                value={quantity}
+                name="quantity"
+                onChange={handleChangeDynamic}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="GST"
+                type="number"
+                InputLabelProps={{ shrink: true }}
+                placeholder="Dont write % symbol"
+                value={tax}
+                name="tax"
                 onChange={handleChangeDynamic}
                 fullWidth
               />
@@ -281,16 +296,16 @@ const Purchase = () => {
             )}
             <Grid item xs={6}>
               <TextField
-                label="Quantity"
-                type="number"
+                label="Serial Number"
                 InputLabelProps={{ shrink: true }}
-                placeholder="Enter Quantity"
-                value={quantity}
-                name="quantity"
+                placeholder="Enter serial Number"
+                value={serialNo}
+                name="serialNo"
                 onChange={handleChangeDynamic}
                 fullWidth
               />
             </Grid>
+
             <Grid item xs={6}>
               <TextField
                 label="Total"
@@ -304,10 +319,7 @@ const Purchase = () => {
                 fullWidth
               />
             </Grid>
-            <Grid xs={6}>
-              {" "}
-              <DatePicker />
-            </Grid>
+            <Grid xs={6}> </Grid>
           </Grid>
           <Box sx={{ margin: "10px" }}>
             <Button
@@ -316,7 +328,7 @@ const Purchase = () => {
               sx={{ marginRight: "10px" }}
               color="success"
             >
-              Add New Customer
+              Add Product
             </Button>
             <Button
               variant="contained"
@@ -327,6 +339,30 @@ const Purchase = () => {
             </Button>
           </Box>
         </Paper>
+      </Box>
+      <Box>
+        <TableShow
+          products={
+            (selectedCustomer !== null && selectedCustomer.products) === false
+              ? null
+              : selectedCustomer.products
+          }
+        />
+      </Box>
+      <Box sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+
+      }}>
+        <Button
+          variant="contained"
+          sx={{ margin : "20px"}}
+          color="warning"
+          onClick={() => {AddProductToCustomerCart()}}
+        >
+          Add products to customer
+        </Button>
       </Box>
     </Layout>
   );
