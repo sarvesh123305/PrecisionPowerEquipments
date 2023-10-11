@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -22,20 +22,23 @@ const EditProduct = (props) => {
     setProductName,
     price,
     description,
-    date,
     setPrice,
     setDescription,
-    setDate,
+    
     //eslint-disable-next-line
     file,
     //eslint-disable-next-line
       setFile,
+      
   } = props;
 
-  const formatDateForDisplay = (dateString) => {
-    return moment(dateString, "YYYY-MM-DD").format("DD:MM:YYYY");
-  };
-
+  const [date, setDate] = useState(
+    moment(new Date()).format("YYYY-MM-DD")
+ );
+ const handleDateChange = e => {
+  setDate(e.target.value);
+};
+ 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>
@@ -94,29 +97,18 @@ const EditProduct = (props) => {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={6}>
-              <TextField
-                label="Date"
-                fullWidth
-                variant="outlined"
-                type="date"
-                onChange={(e) => {
-                  const newDate = setDate(
-                    moment(new Date(e.target.value)).format("DD-MM-YYYY")
-                  );
-                  setDate(newDate);
-                }}
-                value={"sa" + date}
-                InputLabelProps={{ shrink: true }}
-                inputProps={{ min: "2021-01-01", max: "2030-12-31" }} // Optional: Limit the date range
-                // Format the displayed date in the correct format ("DD:MM:YYYY")
-                InputProps={{
-                  inputProps: {
-                    value: formatDateForDisplay(date),
-                  },
-                }}
-              />
-            </Grid>
+          <Grid item xs={6}>
+            <TextField
+              label="Date"
+              fullWidth
+              variant="outlined"
+              type="date"
+              onChange={handleDateChange}
+              value={date}
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ min: "2021-01-01", max: "2030-12-31" }}
+            />
+          </Grid>
             <Grid item xs={12}>
               <TextField
                 label="File"
@@ -132,7 +124,7 @@ const EditProduct = (props) => {
         <Button onClick={onClose} color="secondary">
           Cancel
         </Button>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" >
           Save Changes
         </Button>
       </DialogActions>

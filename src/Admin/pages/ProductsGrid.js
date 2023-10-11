@@ -33,7 +33,7 @@ const ProductsGrid = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-
+  
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -168,6 +168,7 @@ const imageName = getImageNameFromUrl(imgSrc);
         setPrice={setPrice}
         setDescription={setDescription}
         onClose={handleCloseDialog}
+      
       />
     </>
   );
