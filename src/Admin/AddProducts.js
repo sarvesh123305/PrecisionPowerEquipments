@@ -126,7 +126,7 @@ function AddProducts() {
       setData(initialState);
       toast.success("Product Added Successfully");
     } catch (err) {
-      toast.error("Product not added");
+      toast.error("Failed to add product");
     }
     // naviga
   };
