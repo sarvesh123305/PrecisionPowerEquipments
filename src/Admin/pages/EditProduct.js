@@ -60,19 +60,37 @@ const EditProduct = (props) => {
   const [date, setDate] = useState(
     moment(new Date()).format("YYYY-MM-DD")
  );
+ const [selectedFile, setSelectedFile] = useState(null);
+ const [validationMessage, setValidationMessage] = useState('');
  const [isSubmit, setisSubmit] = useState(null);
  const [errors, seterror] = useState(null);
  const handleChange = (e) => {
   setData({ ...data, [e.target.name]: e.target.value });
 };
-const [selectedFile, setSelectedFile] = useState(null);
-const [validationMessage, setValidationMessage] = useState('');
 if (isSubmit && errors) {
 } 
  const handleDateChange = e => {
   setDate(e.target.value);
 };
+const handleFileChange = (e) => {
+  const file = e.target.files[0];
+  
+  if (file) {
+    // Define an array of allowed MIME types for image files
+    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
+    if (allowedMimeTypes.includes(file.type)) {
+      setSelectedFile(file);
+      setValidationMessage(file.name);
+    } else {
+      setValidationMessage('Please select a valid image file (JPEG, PNG, GIF).');
+      e.target.value = ''; // Clear the file input field
+    }
+  } else {
+    setSelectedFile(null);
+    setValidationMessage('');
+  }
+};
   const validate = () => {
     let errors = {};
     // if (!name) {
@@ -114,26 +132,8 @@ const handleSubmit = async (e) => {
   } catch (err) {
     toast.error("Failed to add product");
   }
- 
+  // naviga
 }; 
-const handleFileChange = (e) => {
-  const file = e.target.files[0];
-  
-  if (file) {
-    // Define an array of allowed MIME types for image files
-    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-
-    if (allowedMimeTypes.includes(file.type)) {
-      setSelectedFile(file);
-    } else {
-      setValidationMessage('Please select a valid image file (JPEG, PNG, GIF).');
-      e.target.value = ''; // Clear the file input field
-    }
-  } else {
-    setSelectedFile(null);
-    setValidationMessage('');
-  }
-};
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
@@ -302,12 +302,13 @@ const handleFileChange = (e) => {
                 label="File"
                 type="file"
                 InputLabelProps={{ shrink: true }}
+                fullWidth
                 accept="image/*"
                 onChange={handleFileChange}
-                fullWidth
-              />             
-           <p value={selectedFile ? selectedFile.name : ''}>{validationMessage}</p>
-          </Grid>
+              />
+              <p value={selectedFile ? selectedFile.name : ''}>{validationMessage}</p>
+            </Grid>
+
           </Grid>
         </Paper>
       </DialogContent>
