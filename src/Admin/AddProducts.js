@@ -48,7 +48,7 @@ function AddProducts() {
   const [isSubmit, setisSubmit] = useState(null);
   const [errors, seterror] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-
+  const [validationMessage, setValidationMessage] = useState('');
   if (isSubmit && errors) {
   } // To be modified later
 
@@ -111,6 +111,25 @@ function AddProducts() {
     //   errors.contact = "Contact is required";
     // }
     return errors;
+  };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    
+    if (file) {
+      // Define an array of allowed MIME types for image files
+      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+  
+      if (allowedMimeTypes.includes(file.type)) {
+        setSelectedFile(file);
+        setValidationMessage(file.name);
+      } else {
+        setValidationMessage('Please select a valid image file (JPEG, PNG, GIF).');
+        e.target.value = ''; // Clear the file input field
+      }
+    } else {
+      setSelectedFile(null);
+      setValidationMessage('');
+    }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -250,16 +269,20 @@ function AddProducts() {
                 label="File"
                 type="file"
                 name="file"
+                accept="image/*"
                 onChange={(e) => {
                   setFile(e.target.files[0]);
                   const file = e.target.files[0];
                   if (file) {
                     setSelectedFile(file); // Set the selected file to the state variable
                   }
+                  handleFileChange(e);
+                 
                 }}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
               />
+               <p>{validationMessage}</p>
             </Grid>
             <Grid item xs={1}>
               <a
