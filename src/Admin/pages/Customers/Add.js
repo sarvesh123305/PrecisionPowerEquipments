@@ -20,10 +20,18 @@ const Add = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     setState({ ...state, [name]: value });
   };
+ 
+  const [isValid, setIsValid] = useState(true);
 
+  // Function to handle input changes
+  const handleMobileNumberChange = (event) => {
+    const { name, value } = event.target;
+    setState({ ...state, [name]: value });
+    // Check if the input's length is equal to 10
+    setIsValid(value.length === 10);
+  };
   const handleSubmit = async (e) => {
     console.log("Name : " + name);
     console.log("email : " + email);
@@ -88,10 +96,12 @@ const Add = () => {
                 InputLabelProps={{ shrink: true }}
                 name="contact"
                 value={state.contact}
-                onChange={handleInputChange}
+                onChange={handleMobileNumberChange}
                 fullWidth
               />
+               {!isValid && <p style={{ color: 'red' }}>Please enter a 10-digit mobile number.</p>}
             </Grid>
+            
 
             {/* Second Row */}
             <Grid item xs={6}>

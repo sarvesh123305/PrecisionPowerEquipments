@@ -179,6 +179,7 @@ function AddProducts() {
                 fullWidth
                 value={modelName}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -190,6 +191,7 @@ function AddProducts() {
                 onChange={handleChange}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
+                required
               />
             </Grid>
 
@@ -215,6 +217,7 @@ function AddProducts() {
                   label="category"
                   value={category}
                   onChange={handleChange}
+                  required
                 >
                   <MenuItem value={"Inverter"}>Inverter</MenuItem>
                   <MenuItem value={"Battery"}>Battery</MenuItem>
@@ -245,6 +248,7 @@ function AddProducts() {
                   label="subsidy"
                   value={subsidy}
                   onChange={handleChange}
+                  required
                 >
                   <MenuItem value={"Eligible"}>Eligible</MenuItem>
                   <MenuItem value={"Not Eligible"}>Not Eligible</MenuItem>
@@ -307,6 +311,7 @@ function AddProducts() {
                 name="price"
                 onChange={handleChange}
                 fullWidth
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -321,6 +326,7 @@ function AddProducts() {
                   label="warranty"
                   value={warranty}
                   onChange={handleChange}
+                  required
                 >
                   {[...Array(12)].map((_, index) => (
                     <MenuItem key={index} value={index + 1}>{`${
