@@ -48,7 +48,7 @@ function AddProducts() {
   const [isSubmit, setisSubmit] = useState(null);
   const [errors, seterror] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-
+  const [validationMessage, setValidationMessage] = useState('');
   if (isSubmit && errors) {
   } // To be modified later
 
@@ -112,6 +112,25 @@ function AddProducts() {
     // }
     return errors;
   };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    
+    if (file) {
+      // Define an array of allowed MIME types for image files
+      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+  
+      if (allowedMimeTypes.includes(file.type)) {
+        setSelectedFile(file);
+        setValidationMessage(file.name);
+      } else {
+        setValidationMessage('Please select a valid image file (JPEG, PNG, GIF).');
+        e.target.value = ''; // Clear the file input field
+      }
+    } else {
+      setSelectedFile(null);
+      setValidationMessage('');
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     let errors = validate();
@@ -160,6 +179,7 @@ function AddProducts() {
                 fullWidth
                 value={modelName}
                 onChange={handleChange}
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -171,6 +191,7 @@ function AddProducts() {
                 onChange={handleChange}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
+                required
               />
             </Grid>
 
@@ -196,6 +217,7 @@ function AddProducts() {
                   label="category"
                   value={category}
                   onChange={handleChange}
+                  required
                 >
                   <MenuItem value={"Inverter"}>Inverter</MenuItem>
                   <MenuItem value={"Battery"}>Battery</MenuItem>
@@ -226,6 +248,7 @@ function AddProducts() {
                   label="subsidy"
                   value={subsidy}
                   onChange={handleChange}
+                  required
                 >
                   <MenuItem value={"Eligible"}>Eligible</MenuItem>
                   <MenuItem value={"Not Eligible"}>Not Eligible</MenuItem>
@@ -250,16 +273,20 @@ function AddProducts() {
                 label="File"
                 type="file"
                 name="file"
+                accept="image/*"
                 onChange={(e) => {
                   setFile(e.target.files[0]);
                   const file = e.target.files[0];
                   if (file) {
                     setSelectedFile(file); // Set the selected file to the state variable
                   }
+                  handleFileChange(e);
+                 
                 }}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
               />
+               <p>{validationMessage}</p>
             </Grid>
             <Grid item xs={1}>
               <a
@@ -284,6 +311,7 @@ function AddProducts() {
                 name="price"
                 onChange={handleChange}
                 fullWidth
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -298,6 +326,7 @@ function AddProducts() {
                   label="warranty"
                   value={warranty}
                   onChange={handleChange}
+                  required
                 >
                   {[...Array(12)].map((_, index) => (
                     <MenuItem key={index} value={index + 1}>{`${

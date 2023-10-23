@@ -20,9 +20,9 @@ const Add = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     setState({ ...state, [name]: value });
   };
+ 
 
   const handleSubmit = async (e) => {
     console.log("Name : " + name);
@@ -92,7 +92,6 @@ const Add = () => {
                 fullWidth
               />
             </Grid>
-
             {/* Second Row */}
             <Grid item xs={6}>
               <TextField
