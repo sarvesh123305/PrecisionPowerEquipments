@@ -18,16 +18,33 @@ const ProductsGrid = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
+  const [info, setInfo] = useState("");
+  const[category,setCategory]=useState("");
+  const[modelName,setModelName]=useState("");
+  const [brand, setBrand] = useState("");
+  const [capacity, setCapacity] = useState("");
+  const [subsidy, setSubsidy] = useState("");
+  const [warranty, setWarranty] = useState("");
+  const [manufacturer, setManufacturer] = useState("");
   const [file, setFile] = useState("");
+  const [id, setId] = useState("");  
   const storage = getStorage();
 
-  const handleOpenDialog = (prodName, price, description, date, file) => {
+  
+  const handleOpenDialog = (prodName, price, info, date, file,id,category,modelName,brand,manufacturer,capacity,subsidy,warranty) => {
     setProductName(prodName);
     setPrice(price);
-    setDescription(description);
+    setInfo(info);
     setFile(file);
     setOpenDialog(true);
+    setId(id);
+    setCategory(category);
+    setModelName(modelName);
+    setBrand(brand);
+    setManufacturer(manufacturer);
+    setCapacity(capacity);
+    setSubsidy(subsidy);
+    setWarranty(warranty);
   };
 
   const handleCloseDialog = () => {
@@ -62,7 +79,9 @@ const ProductsGrid = () => {
     try {
 
 const imageName = getImageNameFromUrl(imgSrc);
+
       const desertRef = ref(storage, "Products/"+category+"/"+imageName);
+      
       deleteObject(desertRef)
         .then(() => {
         })
@@ -118,7 +137,7 @@ const imageName = getImageNameFromUrl(imgSrc);
                   <Typography variant="h5">{menu.modelName}</Typography>
                   <Typography variant="h6"> Brand : {menu.brand}</Typography>
 
-                  <Typography variant="body2">{menu.Description}</Typography>
+                  <Typography variant="body2">{menu.description}</Typography>
                   <Typography variant="body1" sx={{ fontWeight: "bold" }}>
                     Rs. {menu.price}
                   </Typography>
@@ -129,9 +148,18 @@ const imageName = getImageNameFromUrl(imgSrc);
                       handleOpenDialog(
                         menu.name,
                         menu.price,
-                        menu.Description,
+                        menu.info,
                         menu.date,
-                        menu.image
+                        menu.img,
+                        menu.id,
+                        menu.category,
+                        menu.modelName,
+                        menu.brand,
+                        menu.manufacturer,
+                        menu.capacity,
+                        menu.subsidy,
+                        menu.warranty,
+                        
                       )
                     }
                     fullWidth
@@ -163,12 +191,28 @@ const imageName = getImageNameFromUrl(imgSrc);
         productName={productName}
         setProductName={setProductName}
         price={price}
-        description={description}
+        info={info}
         file={file}
         setPrice={setPrice}
-        setDescription={setDescription}
+        setInfo={setInfo}
         onClose={handleCloseDialog}
-      
+        id={id}
+        category={category}
+        setCategory={setCategory}
+        modelName={modelName}
+        setModelName={setModelName}
+        brand={brand}
+        setBrand={setBrand}
+        manufacturer={manufacturer}
+        setManufacturer={setManufacturer}
+        capacity={capacity}
+        setCapacity={setCapacity}
+        subsidy={subsidy}
+        setSubsidy={setSubsidy}
+        warranty={warranty}
+        setWarranty={setWarranty}
+        setFile={setFile}
+       
       />
     </>
   );
