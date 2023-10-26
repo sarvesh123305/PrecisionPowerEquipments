@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -18,44 +18,37 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
 import { toast } from "react-toastify";
-import { db } from "../../Database/Firebase1";
-import { setDoc, collection, serverTimestamp } from "firebase/firestore";
+import { storage,db } from "../../Database/Firebase1";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { setDoc,doc, serverTimestamp } from "firebase/firestore";
+
 const EditProduct = (props) => {
   const {
+    id,
     open,
     onClose,
     price,
-    description,
+    info,
     setPrice,
-    setDescription,
-   
-    //eslint-disable-next-line
-    file,
-    //eslint-disable-next-line
-      setFile,
-      modelName,
-      brand,
-      manufacturer,
-      
-      category,
-      capacity,
-      subsidy,
-      warranty,
-
-      
+    setInfo,
+    setCategory,
+    setModelName,
+    setCapacity,
+    setSubsidy,
+    setWarranty,
+    setBrand,
+    setFile,
+    setManufacturer,
+    modelName,
+    brand,
+    manufacturer,  
+    category,
+    capacity,
+    subsidy,
+    warranty    
   } = props;
 
-  const initialState = {
-    modelName: "",
-    brand: "",
-    manufacturer: "",
-    info: "",
-    category: "",
-    price: "",
-    capacity: "",
-    subsidy: "",
-    warranty: "",
-  };
+  
   const [data, setData] = useState('');
   const [date, setDate] = useState(
     moment(new Date()).format("YYYY-MM-DD")
@@ -64,11 +57,52 @@ const EditProduct = (props) => {
  const [validationMessage, setValidationMessage] = useState('');
  const [isSubmit, setisSubmit] = useState(null);
  const [errors, seterror] = useState(null);
- const handleChange = (e) => {
-  setData({ ...data, [e.target.name]: e.target.value });
-};
+ const [imageUrl, setImageUrl] = useState('');
+
 if (isSubmit && errors) {
 } 
+useEffect(() => {
+  const uploadFile = () => {
+    if (selectedFile) {
+      const name = new Date().getTime() + selectedFile.name;
+      const storageRef = ref(storage, "Products/" + category + "/" + name);
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setImageUrl(downloadURL);
+            if (selectedFile) {
+              // Only update the image URL if a new image is selected
+              setData((prev) => ({ ...prev, img: downloadURL }));
+            }
+          });
+        }
+      );
+    }
+  };
+
+  // Upload the image
+  uploadFile();
+}, [selectedFile, category]);
+
  const handleDateChange = e => {
   setDate(e.target.value);
 };
@@ -109,28 +143,32 @@ const handleFileChange = (e) => {
   };
 const handleSubmit = async (e) => {
   e.preventDefault();
-  debugger;
+ 
   let errors = validate();
   if (Object.keys(errors).length) return seterror(errors);
 
   setisSubmit(true);
   try {
-    await setDoc(collection(db, "products"), {
-     modelName:modelName,
-     brand:brand,
-     manufacturer:manufacturer,
-     description:description,
-     category:category,
+    debugger
+    const res =  await setDoc(doc(db, "products",id), {
+    
+     info:info,
      price:price,
+     category:category,
+     brand:brand,
+     modelName:modelName,
+     manufacturer:manufacturer,
      capacity:capacity,
      subsidy:subsidy,
      warranty:warranty,
-    timestamp: serverTimestamp(),
+     ...data,
+     timestamp: serverTimestamp(),
     });
-    setData(initialState);
-    toast.success("Product Added Successfully");
+    
+    toast.success("Product Edited Successfully",res);
   } catch (err) {
-    toast.error("Failed to add product");
+    console.log(err);
+    toast.error("Failed to edit product");
   }
   // naviga
 }; 
@@ -168,7 +206,7 @@ const handleSubmit = async (e) => {
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 value={modelName}
-                onChange={handleChange}
+                onChange={(e) => setModelName(e.target.value)}
               />
             </Grid>
             <Grid item xs={6}>
@@ -177,7 +215,7 @@ const handleSubmit = async (e) => {
                 label="Brand"
                 placeholder="Enter Brand Name"
                 value={brand}
-                onChange={handleChange}
+                onChange={(e) => setBrand(e.target.value)}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
               />
@@ -190,7 +228,7 @@ const handleSubmit = async (e) => {
                 placeholder="Enter Manufacturer Name"
                 InputLabelProps={{ shrink: true }}
                 value={manufacturer}
-                onChange={handleChange}
+                onChange={(e) => setManufacturer(e.target.value)}
                 fullWidth
               />
             </Grid>
@@ -204,7 +242,7 @@ const handleSubmit = async (e) => {
                   id="category"
                   label="category"
                   value={category}
-                  onChange={handleChange}
+                  onChange={(e) => setCategory(e.target.value)}
                 >
                   <MenuItem value={"Inverter"}>Inverter</MenuItem>
                   <MenuItem value={"Battery"}>Battery</MenuItem>
@@ -219,7 +257,7 @@ const handleSubmit = async (e) => {
                 placeholder="Enter capacity"
                 value={capacity}
                 name="capacity"
-                onChange={handleChange}
+                onChange={(e) => setCapacity(e.target.value)}
                 fullWidth
               />
             </Grid>
@@ -234,7 +272,7 @@ const handleSubmit = async (e) => {
                   id="subsidy"
                   label="subsidy"
                   value={subsidy}
-                  onChange={handleChange}
+                  onChange={(e) => setSubsidy(e.target.value)}
                 >
                   <MenuItem value={"Eligible"}>Eligible</MenuItem>
                   <MenuItem value={"Not Eligible"}>Not Eligible</MenuItem>
@@ -259,8 +297,8 @@ const handleSubmit = async (e) => {
                 label="Description"
                 InputLabelProps={{ shrink: true }}
                 placeholder="Enter description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={info}
+                onChange={(e) => setInfo(e.target.value)}
                 fullWidth
               />
             </Grid>
@@ -275,7 +313,7 @@ const handleSubmit = async (e) => {
                   id="warranty"
                   label="warranty"
                   value={warranty}
-                  onChange={handleChange}
+                  onChange={(e) => setWarranty(e.target.value)}
                 >
                   {[...Array(12)].map((_, index) => (
                     <MenuItem key={index} value={index + 1}>{`${
@@ -304,7 +342,18 @@ const handleSubmit = async (e) => {
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 accept="image/*"
-                onChange={handleFileChange}
+               
+                onChange={(e) => {
+                  handleFileChange(e);
+                  if(e.target.files[0]!==undefined)
+                  setFile(imageUrl);
+                  setFile(e.target.files[0]);
+                  const file = e.target.files[0];
+                  if (file) {
+                    setSelectedFile(file); // Set the selected file to the state variable
+                  }
+                }}  
+              
               />
               <p value={selectedFile ? selectedFile.name : ''}>{validationMessage}</p>
             </Grid>
@@ -316,7 +365,7 @@ const handleSubmit = async (e) => {
         <Button onClick={onClose} color="secondary">
           Cancel
         </Button>
-        <Button variant="contained" color="primary" onClick={handleSubmit} >
+        <Button variant="contained" color="primary" onClick={handleSubmit}  >
           Save Changes
         </Button>
       </DialogActions>
